@@ -1,12 +1,215 @@
-<h1>{{ job.job_title }}</h1>
-<p><strong>Company:</strong> {{ job.company }}</p>
-<p><strong>Location:</strong> {{ job.location }}</p>
-<p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
-<p><strong>Salary Range:</strong>₹{{ job.min_salary }} - ₹{{job.max_salary}}</p>
-<p><strong>Description:</strong> {{ job.description }}</p>
-<p><strong>Requirements:</strong> {{ job.requirements }}</p>
-<p><strong>Responsibilities:</strong> {{ job.responsibilities }}</p>
-<p><strong>Application Deadline:</strong> {{ job.application_deadline }}</p>
-{% if job.company_logo %}
-    <img src="{{ job.company_logo.url }}" alt="Company Logo">
-{% endif %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #FCFCFC;
+        padding: 40px 0;
+    }
+
+    .job-detail-container {
+        max-width: 850px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .job-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #E5E7EB;
+    }
+
+    .company-logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #F9FAFB;
+        padding: 12px;
+        object-fit: contain;
+    }
+
+    .job-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 16px;
+    }
+
+    .job-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .meta-item i {
+        font-size: 20px;
+        color: #6B7280;
+    }
+
+    .meta-label {
+        font-size: 14px;
+        color: #6B7280;
+        margin-bottom: 4px;
+    }
+
+    .meta-value {
+        font-size: 16px;
+        color: #111827;
+        font-weight: 500;
+    }
+
+    .job-section {
+        margin-bottom: 32px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 16px;
+    }
+
+    .section-content {
+        color: #4B5563;
+        line-height: 1.6;
+    }
+
+    .apply-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 32px;
+        background-color: #00AAFF;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        gap: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .apply-button:hover {
+        background-color: #0095E0;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 32px;
+        background-color: white;
+        color: #374151;
+        border: 1px solid #E5E7EB;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+        background-color: #F9FAFB;
+        border-color: #D1D5DB;
+    }
+</style>
+<body>
+    <div class="job-detail-container">
+        <div class="job-header">
+            {% if job.company_logo %}
+                <img src="{{ job.company_logo.url }}" alt="Company Logo" class="company-logo">
+            {% endif %}
+            <div>
+                <h1 class="job-title">{{ job.job_title }}</h1>
+                <div class="meta-item">
+                    <i class="bi bi-building"></i>
+                    <span class="meta-value">{{ job.company }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="job-meta">
+            <div class="meta-item">
+                <i class="bi bi-geo-alt"></i>
+                <div>
+                    <div class="meta-label">Location</div>
+                    <div class="meta-value">{{ job.location }}</div>
+                </div>
+            </div>
+            <div class="meta-item">
+                <i class="bi bi-clock"></i>
+                <div>
+                    <div class="meta-label">Job Type</div>
+                    <div class="meta-value">{{ job.get_job_type_display }}</div>
+                </div>
+            </div>
+            <div class="meta-item">
+                <i class="bi bi-currency-dollar"></i>
+                <div>
+                    <div class="meta-label">Salary Range</div>
+                    <div class="meta-value">₹{{ job.min_salary }} - ₹{{ job.max_salary }}</div>
+                </div>
+            </div>
+            <div class="meta-item">
+                <i class="bi bi-calendar-event"></i>
+                <div>
+                    <div class="meta-label">Application Deadline</div>
+                    <div class="meta-value">{{ job.application_deadline }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="job-section">
+            <h2 class="section-title">Job Description</h2>
+            <div class="section-content">{{ job.description }}</div>
+        </div>
+
+        <div class="job-section">
+            <h2 class="section-title">Requirements</h2>
+            <div class="section-content">{{ job.requirements }}</div>
+        </div>
+
+        <div class="job-section">
+            <h2 class="section-title">Responsibilities</h2>
+            <div class="section-content">{{ job.responsibilities }}</div>
+        </div>
+
+        <div class="button-container">
+            <a href="{% url 'job_list' %}" class="back-button">
+                <i class="bi bi-arrow-left"></i>
+                Back to Jobs
+            </a>
+            <button class="apply-button">
+                Apply Now
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>
