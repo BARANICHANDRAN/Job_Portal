@@ -426,6 +426,53 @@
         border-radius: 0 10px 10px 0;
         flex: 1;
     }
+    @media (max-width: 1250px) {
+        .navbar{
+            margin-left: 0;
+            width: 60%;
+            justify-content: center;
+            
+        }
+        #filter {
+            padding: 15px;
+            #filter_input {
+                max-width: 100%;
+                margin: 5px 0;
+            }
+        }
+        .container{
+            position: relative;
+        }
+    }
+    @media (max-width: 1140px) {
+        
+        #filter {
+            padding: 15px;
+            display: block;
+            #filter_input {
+                max-width: 100%;
+                margin: 5px 0;
+            }
+            height: 165px;
+        }
+        .container{
+            position: relative;
+        }
+    }
+    @media (max-width: 1120px) {
+        .navbar{
+            a{
+                font-size: x-small;
+            }
+        }
+    }
+    @media (max-width: 1002px) {
+        .navbar{
+            a{
+                font-size: xx-small;
+            }
+        }
+    }
 </style>
 <script>
    function updateSlider() {
