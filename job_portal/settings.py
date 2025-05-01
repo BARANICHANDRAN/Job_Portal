@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'job-portal-nbc3.onrender.com',
-    'web-production-4a5e3.up.railway.app',
+    'web-production-8371.up.railway.app',
     'localhost',
     '127.0.0.1',
 ]
