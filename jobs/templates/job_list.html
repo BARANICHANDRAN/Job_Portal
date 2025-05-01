@@ -585,8 +585,8 @@
                     <input type="range" name="min_salary" id="minRange" min="0" max="200000" step="1000"
                         value="{{ request.GET.min_salary|default:0 }}"
                         oninput="updateSlider();">
-                    <input type="range" name="max_salary" id="maxRange" min="10000" max="200000" step="1000"
-                        value="{{ request.GET.max_salary|default:200000 }}"
+                    <input type="range" name="max_salary" id="maxRange" min="10000" max="300000" step="1000"
+                        value="{{ request.GET.max_salary|default:300000 }}"
                         oninput="updateSlider();">
                 </div>
                 
