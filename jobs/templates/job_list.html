@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Listings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<style>
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background-color: #FCFCFC;
+    }
+    .navbar {
+        background-color: white;
+        height: 80px;
+        width: 890px;
+        color: black;
+        overflow: hidden;
+        padding: 10px 20px;
+        border: 1px;
+        border-radius: 122px;
+        top: 21px;
+        left: 205px;
+        box-shadow: 0 4px 8px 0 #7F7F7F26, 0 6px 20px 0 #7F7F7F26;
+        
+        
+    }
+    .navbar button{
+        background-image: linear-gradient(#A128FF,#6100AD);  
+        height: 38px;
+        width: 126px;
+        border-radius: 30px;
+        color: white;
+        padding-top: 8px;
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-bottom: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: small;
+    }
+    .navbar a {
+        float: left;
+        color: black;
+        font-size: small;
+        text-decoration: none;
+        padding: 12px 16px;
+        font-weight: bold;
+    }
+    .navbar button:hover {
+        border-radius: 10px;
+    }
+    
+    form.filter-form {
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    form.filter-form input,
+    form.filter-form select {
+        padding: 8px;
+        font-size: 14px;
+    }
+    form.filter-form button {
+        padding: 8px 16px;
+        background-color:   rgba(0, 0, 0, 0.2);
+        color: black;
+        border: none;
+        cursor: pointer;
+    }
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    li {
+        margin-bottom: 10px;
+    }
+    .job-link {
+        text-decoration: none;
+        color: #2c3e50;
+        font-size: 18px;
+    }
+    .job-link:hover {
+        text-decoration: underline;
+    }
+    #filter{
+        margin-top: 40px;
+        background-color: white;
+        display: flex;
+        position: sticky;
+        padding: 10px;
+        height: 90px;
+        width: 100%;
+        align-items: left;
+        #filter_input{
+            width: 240px;
+            margin: 20px;
+        }
+        input[type="text"],
+        select,
+        input[type="range"] {
+            border: none;
+            outline: none;
+            background-color: transparent;
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+    }
+    .range-slider {
+        width: 250px;
+        position: relative;
+        height: 40px;
+    }
+    .range-slider input[type=range] {
+        position: absolute;
+        pointer-events: none;
+        appearance: none;
+        width: 100%;
+        height: 8px;
+        background: transparent;
+    }
+    .range-slider input[type=range]::-webkit-slider-thumb {
+        pointer-events: all;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: black;
+        cursor: pointer;
+        -webkit-appearance: none;
+    }
+    .range-slider-track {
+        position: absolute;
+        height: 8px;
+        width: 100%;
+        background: #ddd;
+        border-radius: 3px;
+    }
+    .range-slider-range {
+        position: absolute;
+        height: 8px;
+        background: black;
+        border-radius: 3px;
+    }
+    .container{
+        width: 100%;
+        display: flex;
+        padding: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+   
+    .card{
+        margin: 5px;
+        border-radius: 12px;
+        width: 316px;
+        overflow: hidden;
+    }
+    .card-img-top{
+        height: 80px; 
+        width: 80px; 
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    .card-title{
+        height: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .long-text{
+        height: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .card .btn{
+        height: 46px;
+        width: 100%;
+        padding: 10px;
+        background-color: #00AAFF;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        border: none;
+    }
+    .card .btn:hover {
+        background-color: #0095E0;
+        color: white;
+    }
+    .card_des{
+        align-items: center;
+        height: 25px;
+        p{
+            margin: 5px;
+            font-size: x-small;
+        }
+        ion-icon{
+            margin-left: 5px;
+        }
+    }
+    
+    /* Modal styles */
+    .modal-dialog {
+        max-width: 850px;
+        margin: 1.75rem auto;
+    }
+    
+    .modal-content {
+        border-radius: 16px;
+        border: none;
+        padding: 20px 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+    
+    .modal-header {
+        border-bottom: none;
+        padding: 20px 0 24px 0;
+    }
+    
+    .modal-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .modal-body {
+        padding: 0;
+    }
+    
+    .form-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #666;
+        margin-bottom: 8px;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 10px;
+        border: 1px solid #E5E7EB;
+        padding: 12px 16px;
+        font-size: 14px;
+        background-color: #F9FAFB;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #00AAFF;
+        box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.1);
+        background-color: #fff;
+    }
+    
+    .form-control::placeholder {
+        color: #9CA3AF;
+    }
+    
+    /* File input styling */
+    input[type="file"].form-control {
+        padding: 10px;
+        line-height: 1.4;
+    }
+    
+    input[type="file"].form-control::file-selector-button {
+        padding: 8px 16px;
+        margin-right: 16px;
+        border: none;
+        border-radius: 8px;
+        background-color: #E5E7EB;
+        color: #4B5563;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    input[type="file"].form-control::file-selector-button:hover {
+        background-color: #D1D5DB;
+    }
+    
+    .input-group-text {
+        background-color: #F9FAFB;
+        border: 1px solid #E5E7EB;
+        border-radius: 10px 0 0 10px;
+        padding: 12px 16px;
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .input-group .form-control {
+        border-radius: 0 10px 10px 0;
+    }
+    
+    textarea.form-control {
+        min-height: 42px;
+        resize: vertical;
+    }
+    
+    .modal-footer {
+        margin-top: 24px;
+        padding: 0;
+        border: none;
+    }
+    
+    .modal-footer .d-flex {
+        gap: 16px;
+    }
+    
+    .modal .btn {
+        width: 207px;
+        height: 59px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        gap: 8px;
+        white-space: nowrap;
+    }
+    
+    .btn-primary {
+        background-color: #00AAFF;
+        border: none;
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+    
+    .btn-outline-secondary {
+        border: 1px solid #E5E7EB;
+        color: #666;
+        background-color: transparent;
+    }
+    
+    .btn i {
+        font-size: 16px;
+    }
+    
+    .gap-3 {
+        gap: 1rem !important;
+    }
+    
+    /* Remove the requirements specific height since it's now an input */
+    #requirements {
+        height: auto;
+    }
+    
+    .gap-2 {
+        gap: 0.5rem !important;
+    }
+    
+    .btn-primary i {
+        margin-left: 4px;
+        margin-right: 0;
+    }
+    
+    .salary-range-inputs {
+        width: 100%;
+    }
+    
+    .salary-range-inputs .input-group {
+        width: 100%;
+    }
+    
+    .salary-input {
+        width: 100%;
+    }
+    
+    .input-group-text {
+        min-width: 32px;
+        justify-content: center;
+    }
+
+    /* Modal salary inputs */
+    .modal .salary-range-inputs {
+        display: flex;
+        gap: 12px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .modal .salary-range-inputs .input-group {
+        width: calc(50% - 6px);  /* 50% width minus half of the gap */
+        flex: none;
+    }
+
+    .modal .salary-input {
+        width: 100%;
+        padding-left: 8px;
+    }
+
+    .modal .input-group-text {
+        width: 36px;
+        padding: 0;
+        justify-content: center;
+        background-color: #F9FAFB;
+        border: 1px solid #E5E7EB;
+        border-radius: 10px 0 0 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    .modal .input-group {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .modal .input-group > .form-control {
+        border-radius: 0 10px 10px 0;
+        flex: 1;
+    }
+</style>
+<script>
+   function updateSlider() {
+        const min = document.getElementById('minRange');
+        const max = document.getElementById('maxRange');
+        const minVal = parseInt(min.value);
+        const maxVal = parseInt(max.value);
+        const range = document.getElementById('rangeHighlight');
+
+        if (minVal > maxVal) {
+            [min.value, max.value] = [maxVal, minVal];
+        }
+
+        document.getElementById('minSalaryVal').textContent = min.value;
+        document.getElementById('maxSalaryVal').textContent = max.value;
+
+        const rangeWidth = min.max - min.min;
+        const minPercent = ((min.value - min.min) / rangeWidth) * 100;
+        const maxPercent = ((max.value - min.min) / rangeWidth) * 100;
+        range.style.left = minPercent + "%";
+        range.style.width = (maxPercent - minPercent) + "%";
+    }
+    updateSlider();
+    const myModal = document.getElementById('myModal')
+    const myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus()
+    })
+</script>
+<body>
+    <div class="navbar">
+        {% load static %}
+        <img src="/media/logo.png" alt="" height="40">
+        <a href="{% url 'job_list' %}">Home</a>
+        <a href="{% url 'job_list' %}">Find Jobs</a>
+        <a href="{% url 'job_list' %}">Find Talents</a>
+        <a href="{% url 'job_list' %}">About us</a>
+        <a href="{% url 'job_list' %}">Testimonials</a>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#createJobModal">Create Jobs</button>
+    </div>
+    <div class="modal fade" id="createJobModal" tabindex="-1" aria-labelledby="createJobModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="createJobModalLabel">Create Job Opening</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'post_job' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="job_title" class="form-label">Job Title</label>
+                                <input type="text" class="form-control" id="job_title" name="job_title" 
+                                    placeholder="Full Stack Developer" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="company" class="form-label">Company Name</label>
+                                <input type="text" class="form-control" id="company" name="company" 
+                                    placeholder="Amazon, Microsoft, Swiggy" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" 
+                                    placeholder="Enter job location" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="job_type" class="form-label">Job Type</label>
+                                <select class="form-select" id="job_type" name="job_type" required>
+                                    <option value="full_time">Full Time</option>
+                                    <option value="part_time">Part Time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="internship">Internship</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Salary Range</label>
+                                <div class="salary-range-inputs">
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" class="form-control salary-input" id="min_salary" name="min_salary" 
+                                            placeholder="0" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" class="form-control salary-input" id="max_salary" name="max_salary" 
+                                            placeholder="0" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="application_deadline" class="form-label">Application Deadline</label>
+                                <input type="date" class="form-control" id="application_deadline" name="application_deadline" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="requirements" class="form-label">Experience Needed</label>
+                                <input type="text" class="form-control" id="requirements" name="requirements" 
+                                    placeholder="(e.g.2-3years)" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="company_logo" class="form-label">Company Logo</label>
+                                <input type="file" class="form-control" id="company_logo" name="company_logo" 
+                                    accept="image/*">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Job Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" 
+                                placeholder="Please share a description to let the candidate know more about the job role" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="responsibilities" class="form-label">Responsibilities</label>
+                            <textarea class="form-control" id="responsibilities" name="responsibilities" rows="4" 
+                                placeholder="List the key responsibilities for this position" required></textarea>
+                        </div>
+                        <div class="modal-footer border-0 px-0">
+                            <div class="d-flex justify-content-between w-100">
+                                <button type="button" class="btn btn-outline-secondary">
+                                    <i class="bi bi-file-earmark"></i> Save Draft
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    Publish <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="filter">
+        <form method="get" class="filter-form">
+            <input id="filter_input" type="text" name="title" placeholder="🔍︎ Job Title" value="{{ request.GET.title }}">
+            <input id="filter_input" type="text" name="location" placeholder="⚲ Preferred Location" value="{{ request.GET.location }}">
+            <select id="filter_input" name="job_type">
+                <option value="">👤Job Types</option>
+                <option value="full_time" {% if request.GET.job_type == "full_time" %}selected{% endif %}>Full-time</option>
+                <option value="part_time" {% if request.GET.job_type == "part_time" %}selected{% endif %}>Part-time</option>
+                <option value="contract" {% if request.GET.job_type == "contract" %}selected{% endif %}>Contract</option>
+                <option value="internship" {% if request.GET.job_type == "internship" %}selected{% endif %}>Internship</option>
+            </select>
+            <div style="display: block;">
+                <div style="display: flex;">            
+                    <label for="salaryRange">Salary Range:</label>
+                    <p>₹<span id="minSalaryVal"></span> - ₹<span id="maxSalaryVal"></span></p>
+                </div>
+                <div class="range-slider">
+                    <div class="range-slider-track"></div>
+                    <div class="range-slider-range" id="rangeHighlight"></div>
+                    <input type="range" name="min_salary" id="minRange" min="0" max="200000" step="1000"
+                        value="{{ request.GET.min_salary|default:0 }}"
+                        oninput="updateSlider();">
+                    <input type="range" name="max_salary" id="maxRange" min="10000" max="200000" step="1000"
+                        value="{{ request.GET.max_salary|default:200000 }}"
+                        oninput="updateSlider();">
+                </div>
+                
+            </div>
+            <div style="display: flex; padding: 10px; height: 60px; width: 100px; justify-content: right;">
+                <button type="submit">Filter</button>
+            </div>
+                
+        </form>
+    </div>
+    <div class="container">
+            {% for job in jobs %}
+            <div class="card" >
+                {% if job.company_logo and job.company_logo.name %}
+                    <img src="{{ job.company_logo.url }}" class="card-img-top">
+                {% else %}
+                    <p><em>No logo uploaded</em></p>
+                {% endif %}
+                <div class="card-body">
+                      <h5 class="card-title">{{ job.job_title }}</h5>
+                      <div class="card_des" style="display: flex;">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <p>{{job.requirements}}</p>
+                        <ion-icon name="home-outline"></ion-icon>
+                        <p>{{job.location}}</p>
+                        <ion-icon name="cash-outline"></ion-icon>
+                        <p>₹ {{ job.min_salary }} - {{ job.max_salary }}</p>
+                      </div>
+                    <p class="card-text long-text">{{ job.description }}</p>
+                    <a href="{% url 'job_detail' job.id %}" class="btn btn-primary">Apply Now</a>
+                    
+                      
+                </div>
+            </div>
+            {% empty %}
+                <li>No matching jobs found.</li>
+            {% endfor %}
+    </div>
+</body>
+</html>

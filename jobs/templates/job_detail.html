@@ -1,0 +1,12 @@
+<h1>{{ job.job_title }}</h1>
+<p><strong>Company:</strong> {{ job.company }}</p>
+<p><strong>Location:</strong> {{ job.location }}</p>
+<p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
+<p><strong>Salary Range:</strong>₹{{ job.min_salary }} - ₹{{job.max_salary}}</p>
+<p><strong>Description:</strong> {{ job.description }}</p>
+<p><strong>Requirements:</strong> {{ job.requirements }}</p>
+<p><strong>Responsibilities:</strong> {{ job.responsibilities }}</p>
+<p><strong>Application Deadline:</strong> {{ job.application_deadline }}</p>
+{% if job.company_logo %}
+    <img src="{{ job.company_logo.url }}" alt="Company Logo">
+{% endif %}
