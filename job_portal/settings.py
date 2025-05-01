@@ -31,6 +31,10 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
 ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-8371.up.railway.app',
+    'https://job-portal-nbc3.onrender.com/',
+]
 
 
 # Application definition
