@@ -63,11 +63,20 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+        width: 100%;
     }
     form.filter-form input,
     form.filter-form select {
         padding: 8px;
         font-size: 14px;
+        flex: 1;
+        min-width: 200px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+    form.filter-form input::placeholder {
+        color: #aaa;
     }
     form.filter-form button {
         padding: 8px 16px;
@@ -100,23 +109,10 @@
         height: 90px;
         width: 100%;
         align-items: left;
-        #filter_input{
-            width: 240px;
-            margin: 20px;
-        }
-        input[type="text"],
-        select,
-        input[type="range"] {
-            border: none;
-            outline: none;
-            background-color: transparent;
-            padding: 6px 10px;
-            font-size: 14px;
-        }
-
-        input[type="text"]::placeholder {
-            color: #aaa;
-        }
+    }
+    #filter_input {
+        width: 100%;
+        margin: 20px;
     }
     .range-slider {
         width: 250px;
@@ -133,8 +129,8 @@
     }
     .range-slider input[type=range]::-webkit-slider-thumb {
         pointer-events: all;
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         background: black;
         cursor: pointer;
@@ -142,15 +138,15 @@
     }
     .range-slider-track {
         position: absolute;
-        height: 8px;
+        height: 5px;
         width: 100%;
-        background: #ddd;
+        background: black;
         border-radius: 3px;
     }
     .range-slider-range {
         position: absolute;
-        height: 8px;
-        background: black;
+        height: 5px;
+        background: grey;
         border-radius: 3px;
     }
     .container{
@@ -171,9 +167,16 @@
         height: 80px; 
         width: 80px; 
         margin: 10px;
-        padding: 10px;
+        padding: 8px;
         border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.1);
+        background-image: linear-gradient(#FEFEFD,#F1F1F1);
+    }
+    .card-img-top img {
+        border-radius: 50%;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 10.25px 0 #94949440;
     }
     .card-title{
         height: 50px;
@@ -215,6 +218,7 @@
         }
     }
     
+    /* Modal styles */
     .modal-dialog {
         max-width: 850px;
         margin: 1.75rem auto;
@@ -355,6 +359,11 @@
         gap: 1rem !important;
     }
     
+    /* Remove the requirements specific height since it's now an input */
+    #requirements {
+        height: auto;
+    }
+    
     .gap-2 {
         gap: 0.5rem !important;
     }
@@ -381,6 +390,7 @@
         justify-content: center;
     }
 
+    /* Modal salary inputs */
     .modal .salary-range-inputs {
         display: flex;
         gap: 12px;
@@ -389,7 +399,7 @@
     }
 
     .modal .salary-range-inputs .input-group {
-        width: calc(50% - 6px);  
+        width: calc(50% - 6px);  /* 50% width minus half of the gap */
         flex: none;
     }
 
@@ -466,6 +476,8 @@
             }
         }
     }
+    
+    
 </style>
 <script>
    function updateSlider() {
@@ -604,10 +616,10 @@
         </div>
     </div>
     <div id="filter">
-        <form method="get" class="filter-form">
-            <input id="filter_input" type="text" name="title" placeholder="🔍︎ Job Title" value="{{ request.GET.title }}">
-            <input id="filter_input" type="text" name="location" placeholder="⚲ Preferred Location" value="{{ request.GET.location }}">
-            <select id="filter_input" name="job_type">
+        <form method="get" class="filter-form" id="filterForm">
+            <input id="filter_input" type="text" name="title" placeholder="🔍︎ Job Title" value="{{ request.GET.title }}" onchange="this.form.submit()">
+            <input id="filter_input" type="text" name="location" placeholder="⚲ Preferred Location" value="{{ request.GET.location }}" onchange="this.form.submit()">
+            <select id="filter_input" name="job_type" onchange="this.form.submit()">
                 <option value="">👤Job Types</option>
                 <option value="full_time" {% if request.GET.job_type == "full_time" %}selected{% endif %}>Full-time</option>
                 <option value="part_time" {% if request.GET.job_type == "part_time" %}selected{% endif %}>Part-time</option>
@@ -624,24 +636,21 @@
                     <div class="range-slider-range" id="rangeHighlight"></div>
                     <input type="range" name="min_salary" id="minRange" min="0" max="200000" step="1000"
                         value="{{ request.GET.min_salary|default:0 }}"
-                        oninput="updateSlider();">
+                        oninput="updateSlider(); this.form.submit()">
                     <input type="range" name="max_salary" id="maxRange" min="10000" max="200000" step="1000"
                         value="{{ request.GET.max_salary|default:200000 }}"
-                        oninput="updateSlider();">
+                        oninput="updateSlider(); this.form.submit()">
                 </div>
-                
             </div>
-            <div style="display: flex; padding: 10px; height: 60px; width: 100px; justify-content: right;">
-                <button type="submit">Filter</button>
-            </div>
-                
         </form>
     </div>
     <div class="container">
             {% for job in jobs %}
             <div class="card" >
                 {% if job.company_logo and job.company_logo.name %}
-                    <img src="{{ job.company_logo.url }}" class="card-img-top">
+                    <div class="card-img-top">
+                        <img src="{{ job.company_logo.url }}">
+                    </div>
                 {% else %}
                     <p><em>No logo uploaded</em></p>
                 {% endif %}
